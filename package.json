@@ -1,0 +1,24 @@
+{
+  "name": "evergarden-backend",
+  "version": "0.1.0",
+  "description": "代号Evergarden，朝着我们的理想前进！",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dangoyears/evergarden-backend.git"
+  },
+  "author": "",
+  "license": "",
+  "bugs": {
+    "url": "https://github.com/dangoyears/evergarden-backend/issues"
+  },
+  "homepage": "https://github.com/dangoyears/evergarden-backend",
+  "devDependencies": {
+    "nodemon": "^1.18.10"
+  }
+}
