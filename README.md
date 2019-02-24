@@ -22,7 +22,9 @@ npm run dev
 
 ## API
 
-`get(string)   // 传递要搜索的名称`
+### 获取书籍信息
+
+- `/book/?title=pro-git`
 
 ```js
 {
