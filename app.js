@@ -1,10 +1,24 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
+
+
 const PORT = 3000;
 
 
 const app = express();
+
+
+// CORS
+app.use((req, res, next) => {
+    res.header({
+        'Access-Control-Allow-Credentials': true,
+        'Access-Control-Allow-Origin': req.headers.origin || '*',
+        'Access-Control-Allow-Headers': 'X-Requested-With',
+        'Access-Control-Allow-Methods': 'PUT,POST,GET,DELETE,OPTIONS',
+    });
+    next();
+});
 
 
 // Body parser
@@ -13,8 +27,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 
 // 静态文件
-app.get('.*(.jpg|.jpeg|.png)', (req, res) => {
-    console.log(__dirname + path);
+app.get(/.*(.jpg)|(.jpeg)/, (req, res) => {
+    res.send(__dirname + req.path);
 });
 
 
