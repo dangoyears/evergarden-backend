@@ -34,13 +34,15 @@ app.get(/.*(.jpg)|(.jpeg)/, (req, res) => {
 });
 
 
-// 路由
-fs.readdirSync(path.join(__dirname, 'route')).forEach((filename) => {
+// 将定义了middleware函数的模块加入路由
+fs.readdirSync(__dirname).forEach((filename) => {
     if (!filename.match(/.js$/i)) return;
-    let route = '/' + filename.replace(/.js$/i, '').replace('_', '/');
-    let middleware = require(path.join(__dirname, 'route', filename));
+    let middleware = require(path.join(__dirname, filename)).middleware;
 
-    app.get(route, middleware);
+    if (middleware && typeof middleware === 'function') {
+        let route = '/' + filename.replace(/.js$/i, '');
+        app.get(route, middleware);
+    }
 });
 
 
