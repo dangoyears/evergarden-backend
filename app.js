@@ -1,8 +1,10 @@
+const fs = require('fs');
+const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 
 
-
+// 监听端口
 const PORT = 3000;
 
 
@@ -32,9 +34,13 @@ app.get(/.*(.jpg)|(.jpeg)/, (req, res) => {
 });
 
 
-// Book接口
-app.get('/book/', (req, res) => {
-    res.send(req.query['title']);
+// 路由
+fs.readdirSync(path.join(__dirname, 'module')).forEach((filename) => {
+    if (!filename.match(/.js$/i)) return;
+    let route = '/' + filename.replace(/.js$/i, '').replace('_', '/');
+    let middleware = require(path.join(__dirname, 'module', filename));
+
+    app.get(route, middleware);
 });
 
 
