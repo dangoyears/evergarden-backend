@@ -22,6 +22,9 @@
     "nodemon": "^1.18.10"
   },
   "dependencies": {
-    "express": "^4.16.4"
+    "cheerio": "^1.0.0-rc.2",
+    "express": "^4.16.4",
+    "iconv-lite": "^0.4.24",
+    "request": "^2.88.0"
   }
 }
