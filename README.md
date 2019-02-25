@@ -2,23 +2,12 @@
 
 代号Evergarden，朝着我们的理想前进！
 
-## 安装
+## 配置
 
-```sh
-npm install
-```
-
-## 运行
-
-```sh
-npm start
-```
-
-开发环境
-
-```sh
-npm run dev
-```
+1. 安装依赖 `npm install`
+2. 运行
+    - 生产环境 `npm start`
+    - 开发环境 `npm run dev`
 
 ## API
 
