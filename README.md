@@ -24,7 +24,7 @@ npm run dev
 
 ### 获取书籍信息
 
-- `/book/?title=pro-git`
+`/book/?title=pro%20git`
 
 ```js
 {
