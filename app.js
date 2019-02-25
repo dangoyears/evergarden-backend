@@ -35,10 +35,10 @@ app.get(/.*(.jpg)|(.jpeg)/, (req, res) => {
 
 
 // 路由
-fs.readdirSync(path.join(__dirname, 'module')).forEach((filename) => {
+fs.readdirSync(path.join(__dirname, 'route')).forEach((filename) => {
     if (!filename.match(/.js$/i)) return;
     let route = '/' + filename.replace(/.js$/i, '').replace('_', '/');
-    let middleware = require(path.join(__dirname, 'module', filename));
+    let middleware = require(path.join(__dirname, 'route', filename));
 
     app.get(route, middleware);
 });
