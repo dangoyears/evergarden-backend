@@ -2,12 +2,8 @@ const fs = require('fs');
 const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
+const config = require('./config');
 
-
-// 服务器配置
-var config = {
-    PORT: 3000,  // 监听端口
-};
 
 const app = express();
 
@@ -50,6 +46,3 @@ fs.readdirSync(__dirname).forEach((filename) => {
 app.listen(config.PORT, () => {
     console.log(`Evergarden API service is running at port ${config.PORT}.`);
 });
-
-
-module.exports = { config }
