@@ -15,8 +15,10 @@ function crawl(title) {
         key: title,
         category_path: '01.00.00.00.00.00'  // 指定仅在图书分类下搜索
     })
-
     let url = `${url_path}?${url_querystring}`;
+    
+    console.log(`爬取索引 ${url}`);
+    
     request(
         {
             uri: url,
@@ -28,10 +30,11 @@ function crawl(title) {
                 body = iconv.decode(body, charset).toString();  // 解码网页
 
                 const $ = cheerio.load(body);
-                $('div [dd_name=普通商品区域] ul').each((i, elem) => {
-                    
+                $('div [dd_name=普通商品区域] ul li').each((i, elem) => {
+                    console.log($('a', elem).text());
                 });
-                fs.writeFileSync(path.join(__dirname, 'cache', 'dangdang.html'), html.html());
+
+                fs.writeFileSync(path.join(__dirname, 'cache', 'dangdang.html'), $.html());
             }
         }
     );

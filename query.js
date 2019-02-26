@@ -36,12 +36,12 @@ function query_by_title(title, sync) {
                 statusCode: 1,
                 statusDescription: '查询请求已接受，正在爬取'
             }
-            fs.writeFile(filepath, JSON.stringify(payload), (e) => {
-                console.log(e);
-            })
+            fs.writeFileSync(filepath, JSON.stringify(payload));
+            crawler(title);
         }
     }
 
+    crawler(title);
     return payload;
 }
 
