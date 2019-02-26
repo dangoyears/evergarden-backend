@@ -4,9 +4,10 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 
-// 监听端口
-const PORT = 3000;
-
+// 服务器配置
+var config = {
+    PORT: 3000,  // 监听端口
+};
 
 const app = express();
 
@@ -46,6 +47,9 @@ fs.readdirSync(__dirname).forEach((filename) => {
 });
 
 
-app.listen(PORT, () => {
-    console.log(`Evergarden API service is running at port ${PORT}.`);
+app.listen(config.PORT, () => {
+    console.log(`Evergarden API service is running at port ${config.PORT}.`);
 });
+
+
+module.exports = { config }
