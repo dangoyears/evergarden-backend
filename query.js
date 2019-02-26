@@ -28,7 +28,7 @@ function query_by_title(title, sync) {
         // 若文件不存在则开始爬取
         if (sync) {
             // 同步爬取，等所有爬取任务结束后合并结果再返回
-            // 未实现
+            // 正在实现
         }
         else {
             // 异步爬取
@@ -37,11 +37,19 @@ function query_by_title(title, sync) {
                 statusDescription: '查询请求已接受，正在爬取'
             }
             fs.writeFileSync(filepath, JSON.stringify(payload));
-            crawler(title);
+
+            function finished(books) {
+                payload = JSON.parse(fs.readFileSync(filepath).toString());
+                payload.statusCode = 2;
+                payload.statusDescription = '查询请求已完成'
+                payload.books = books;
+                fs.writeFileSync(filepath, JSON.stringify(payload));
+            }
+
+            crawler(title, finished);
         }
     }
 
-    crawler(title);
     return payload;
 }
 

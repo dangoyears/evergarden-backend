@@ -9,7 +9,9 @@ const iconv = require('iconv-lite');
 const cheerio = require('cheerio');
 
 
-function crawl(title) {
+// 将爬取结果作为callback的第一个参数返回
+function crawl(title, callback) {
+
     let url_path = 'http://search.dangdang.com/';  // 当当网搜索主页
     let url_querystring = querystring.stringify({
         key: title,
@@ -29,12 +31,24 @@ function crawl(title) {
                 let charset = res.headers["content-type"].match(/charset=(.*)$/)[1];  // 获取网页编码
                 body = iconv.decode(body, charset).toString();  // 解码网页
 
+                let books = [];
+
                 const $ = cheerio.load(body);
                 $('div [dd_name=普通商品区域] ul li').each((i, elem) => {
-                    console.log($('a', elem).text());
+                    let title = $('.name', elem).text();
+                    let link = $('.name', elem).children('a').attr('href');
+                    let imgUrl = $('a.pic', elem).children('img').attr('data-original') || $('a.pic', elem).children('img').attr('src');
+                    let price = $('.search_now_price', elem).text();
+                    let detail = $('.detail', elem).text();
+                    books.push({
+                        title: title,
+                        link: link,
+                        price: price,
+                        imgUrl: imgUrl,
+                        detail: detail
+                    })
                 });
-
-                fs.writeFileSync(path.join(__dirname, 'cache', 'dangdang.html'), $.html());
+                callback(books);
             }
         }
     );
