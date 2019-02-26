@@ -1,4 +1,10 @@
 const cheerio = require('cheerio');
+const fs = require('fs');
+const path = require('path');
+
+// FileSystem测试
+let pt = path.join(__dirname, '/');
+console.log(pt);
 
 // CheerIO测试
 
