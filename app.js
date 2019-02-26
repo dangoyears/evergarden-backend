@@ -5,6 +5,15 @@ const bodyParser = require('body-parser');
 const config = require('./config');
 
 
+// 确保缓存文件夹可用
+['/', '/query', '/crawler'].forEach((dir) => {
+    let dirpath = path.join(config.CACHE_PATH, dir);
+    if (!fs.existsSync(dirpath) || !fs.lstatSync(dirpath).isDirectory()) {
+        fs.mkdirSync(dirpath);
+    }
+});
+
+
 const app = express();
 
 
