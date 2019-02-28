@@ -8,7 +8,7 @@
     "dev": "nodemon app.js",
     "test": "node app.test.js",
     "clean": "node clean.js",
-    "stop": "node app.stop.js --stop",
+    "stop": "node app.js --stop",
     "lint": "eslint --ext .js .",
     "lint-fix": "eslint --ext .js --fix ."
   },
