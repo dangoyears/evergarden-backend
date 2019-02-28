@@ -8,7 +8,7 @@ const cheerio = require('cheerio');
 
 
 // 将爬取结果作为callback的第一个参数返回
-function crawl(title, callback) {
+async function crawlDangdang(title, callback) {
 
     let url_path = 'http://search.dangdang.com/';  // 当当网搜索主页
     let url_querystring = querystring.stringify({
@@ -16,8 +16,6 @@ function crawl(title, callback) {
         category_path: '01.00.00.00.00.00'  // 指定仅在图书分类下搜索
     });
     let url = `${url_path}?${url_querystring}`;
-    
-    console.log(`爬取索引 ${url}`);
     
     request(
         {
@@ -52,4 +50,6 @@ function crawl(title, callback) {
     );
 }
 
-module.exports = crawl;
+module.exports = {
+    crawlDangdang
+};
