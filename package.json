@@ -9,6 +9,8 @@
     "test": "node app.test.js",
     "clean": "node clean.js",
     "stop": "node app.stop.js --stop",
+    "lint": "eslint --ext .js .",
+    "lint-fix": "eslint --ext .js --fix ."
   },
   "repository": {
     "type": "git",

@@ -9,7 +9,7 @@ const crawler = require('./crawler');
 
 
 // 通过标题搜索书籍，返回JSON搜索结果
-function query_by_title(title, sync) {
+function queryByTitle(title, sync) {
     if (!title) {
         return {
             statusCode: -1,
@@ -59,7 +59,7 @@ function middleware(req, res) {
     let sync = req.query['sync'];
     let title = (req.query['title'] || '').trim();
 
-    res.json(query_by_title(title, sync));
+    res.json(queryByTitle(title, sync));
 }
 
 

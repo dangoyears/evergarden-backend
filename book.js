@@ -2,7 +2,7 @@
 
 
 // 路由
-function middleware(req, res, next) {
+function middleware(req, res) {
     res.send('ok.');
 }
 
