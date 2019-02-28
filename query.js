@@ -17,6 +17,7 @@ function query_by_title(title, sync) {
         };
     }
 
+    let payload;
     let hash = crypto.createHash('sha1').update(title).digest('hex');
     let filepath = path.join(config.CACHE_PATH, 'query', `ST${hash}`);  // 保存任务状态的文件路径
 
@@ -35,7 +36,7 @@ function query_by_title(title, sync) {
             payload = {
                 statusCode: 1,
                 statusDescription: '查询请求已接受，正在爬取'
-            }
+            };
             fs.writeFileSync(filepath, JSON.stringify(payload));
 
             function finished(books) {

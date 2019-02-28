@@ -1,8 +1,6 @@
 // 爬虫
 
 
-const fs = require('fs');
-const path = require('path');
 const querystring = require('querystring');
 const request = require('request');
 const iconv = require('iconv-lite');
@@ -16,7 +14,7 @@ function crawl(title, callback) {
     let url_querystring = querystring.stringify({
         key: title,
         category_path: '01.00.00.00.00.00'  // 指定仅在图书分类下搜索
-    })
+    });
     let url = `${url_path}?${url_querystring}`;
     
     console.log(`爬取索引 ${url}`);
@@ -28,7 +26,7 @@ function crawl(title, callback) {
         },
         function (err, res, body) {
             if (!err) {
-                let charset = res.headers["content-type"].match(/charset=(.*)$/)[1];  // 获取网页编码
+                let charset = res.headers['content-type'].match(/charset=(.*)$/)[1];  // 获取网页编码
                 body = iconv.decode(body, charset).toString();  // 解码网页
 
                 let books = [];
@@ -46,7 +44,7 @@ function crawl(title, callback) {
                         price: price,
                         imgUrl: imgUrl,
                         detail: detail
-                    })
+                    });
                 });
                 callback(books);
             }
