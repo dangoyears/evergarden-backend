@@ -8,7 +8,7 @@
     "dev": "nodemon app.js",
     "test": "node app.test.js",
     "clean": "node clean.js",
-    "lint": "eslint --ext .js *"
+    "stop": "node app.stop.js --stop",
   },
   "repository": {
     "type": "git",

@@ -14,6 +14,10 @@ const config = require('./config');
 });
 
 
+// 将进程ID写入缓存目录中的PID文件
+fs.writeFileSync(path.join(config.CACHE_PATH, 'PID'), process.pid);
+
+
 const app = express();
 
 
@@ -52,6 +56,7 @@ fs.readdirSync(__dirname).forEach((filename) => {
 });
 
 
+// 启动服务器
 app.listen(config.PORT, () => {
     console.log(`Evergarden API service is running at port ${config.PORT}.`);
 });
