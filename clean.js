@@ -20,7 +20,7 @@ function cleanCache() {
                         fs.unlinkSync(filepath);
                     }
                 }));
-            }) 
+            });
         }));
     });
 }
