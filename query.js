@@ -8,8 +8,8 @@ const config = require('./config');
 const crawler = require('./crawler');
 
 
-// 通过同步方法返回数据
-function queryByTitle(title, sync) {
+// 通过标题查询数据
+async function queryByTitle(title, sync) {
     if (!title) {  // 如果标题为空，拒绝查询
         return {
             statusCode: -1,
@@ -17,21 +17,25 @@ function queryByTitle(title, sync) {
         };
     }
 
-    let payload;  // 返回的JSON数据
+    let payload = {};  // 向客户端返回的数据
+    let datasources_crawlers = [
+        'crawlDangdangTitle'
+    ];  // 爬虫
+    payload.totalDataSources = datasources_crawlers.length;
     let hash = crypto.createHash('sha1').update(title).digest('hex');
     let filepath = path.join(config.CACHE_PATH, 'query', hash);  // 保存任务状态的文件路径
 
 
     // 同步的查询方法
-    function Sync() {
-        let missons = [
-            'crawlDangdang'
-        ];
+    async function Sync() {  
         let results = [];
         
-        missons.forEach((misson) => {
-            let result = await crawler[misson]();
-        });
+        for (let i = 0; i < datasources_crawlers.length; ++i) {
+            let result = await crawler[datasources_crawlers[i]](title);
+            results.push(result);
+        }
+
+        return results;
     }
 
 
@@ -47,16 +51,17 @@ function queryByTitle(title, sync) {
         }
     }
 
-    return sync ? Sync() : Async();
+    payload.books = sync ? await Sync() : Async();
+    return payload;
 }
 
 
-function middleware(req, res) {
+async function middleware(req, res) {
     let sync = req.query['sync'];
     let title = (req.query['title'] || '').trim();
 
     let startedTime = new Date();
-    let payload = queryByTitle(title, sync)
+    let payload = await queryByTitle(title, sync);
     let finishedTime = new Date();
     payload['processTime'] = finishedTime.getTime() - startedTime.getTime();
     res.json(payload);
