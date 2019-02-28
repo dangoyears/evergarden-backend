@@ -7,19 +7,21 @@
     "start": "node app.js",
     "dev": "nodemon app.js",
     "test": "node app.test.js",
-    "clean": "node clean.js"
+    "clean": "node clean.js",
+    "lint": "eslint --ext .js *"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dangoyears/evergarden-backend.git"
   },
-  "author": "",
-  "license": "",
+  "author": "Dangoyears",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/dangoyears/evergarden-backend/issues"
   },
   "homepage": "https://github.com/dangoyears/evergarden-backend",
   "devDependencies": {
+    "eslint": "^5.14.1",
     "nodemon": "^1.18.10"
   },
   "dependencies": {
