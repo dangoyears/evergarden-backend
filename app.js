@@ -1,3 +1,6 @@
+// 应用程序入口
+
+
 const fs = require('fs');
 const path = require('path');
 const express = require('express');
@@ -28,7 +31,7 @@ if (process.argv[2]) {
 
 
 // 确保缓存文件夹可用
-['/', '/query', '/crawler'].forEach((dir) => {
+['/', '/list', '/crawler'].forEach((dir) => {
     let dirpath = path.join(config.CACHE_PATH, dir);
     if (!fs.existsSync(dirpath) || !fs.lstatSync(dirpath).isDirectory()) {
         fs.mkdirSync(dirpath);
