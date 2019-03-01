@@ -4,11 +4,11 @@
   "description": "代号Evergarden，朝着我们的理想前进！",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
-    "dev": "nodemon app.js",
     "test": "node app.test.js",
-    "clean": "node clean.js",
+    "start": "node app.js",
     "stop": "node app.js --stop",
+    "dev": "nodemon app.js",
+    "clean": "node app.js --clean",
     "lint": "eslint --ext .js .",
     "lint-fix": "eslint --ext .js --fix ."
   },

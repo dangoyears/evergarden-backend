@@ -3,6 +3,28 @@ const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 const config = require('./config');
+const toolkit = require('./toolkit');
+
+
+// 检查命令行参数
+if (process.argv[2]) {
+    
+    // 允许通过`node app.js --stop`杀死进程
+    if (process.argv[2].toLowerCase() === '--stop') {
+        let pid_file_path = path.join(config.CACHE_PATH, 'PID');
+        let pid = parseInt(fs.readFileSync(pid_file_path).toString());
+        console.log('Evergarden API service is shutting down.');
+        process.kill(pid, 'SIGTERM');
+        fs.unlinkSync(pid_file_path);
+        process.exit();
+    }
+
+    // 允许通过`node app.js --clean`来清理缓存目录
+    if (process.argv[2].toLowerCase() === '--clean') {
+        toolkit.cleanCache();
+        return;
+    }
+}
 
 
 // 确保缓存文件夹可用
@@ -12,15 +34,6 @@ const config = require('./config');
         fs.mkdirSync(dirpath);
     }
 });
-
-
-// 允许通过`node app.js --stop`杀死进程
-if (process.argv[2] && process.argv[2].toLowerCase() === '--stop') {
-    let pid = parseInt(fs.readFileSync(path.join(config.CACHE_PATH, 'PID')).toString());
-    console.log('Evergarden API service is shutting down.');
-    process.kill(pid, 'SIGTERM');
-    process.exit();
-}
 
 
 // 将进程ID写入缓存目录中的PID文件
@@ -70,3 +83,7 @@ fs.readdirSync(__dirname).forEach((filename) => {
 app.listen(config.PORT, () => {
     console.log(`Evergarden API service is running at port ${config.PORT}.`);
 });
+
+
+// 每隔config.CACHE_EXPIRATION_MS中指定的时间清理缓存
+setInterval(toolkit.cleanCache, config.CACHE_EXPIRATION_MS);
