@@ -27,6 +27,7 @@ if (process.argv[2] && process.argv[2].toLowerCase() === '--stop') {
 fs.writeFileSync(path.join(config.CACHE_PATH, 'PID'), process.pid);
 
 
+// Express路由
 const app = express();
 
 
@@ -60,7 +61,7 @@ fs.readdirSync(__dirname).forEach((filename) => {
 
     if (middleware && typeof middleware === 'function') {
         let route = '/' + filename.replace(/.js$/i, '');
-        app.get(route, middleware);
+        app.all(route, middleware);
     }
 });
 
