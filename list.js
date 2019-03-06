@@ -8,9 +8,9 @@ const config = require('./config');
 const crawlers = require('./crawler');
 
 
-// 通过标题查询数据
+// 通过标题列出书单
 async function queryByTitle(title, sync) {
-    let payload;  // 返回的数据
+    let payload = {};  // 返回的数据
 
     if (!title) {  // 如果标题为空，拒绝查询
         payload.code = 400;
@@ -43,7 +43,9 @@ async function queryByTitle(title, sync) {
                 return payload;
             }
             catch (err) {
-                fs.unlink(filepath, () => {});
+                fs.unlink(filepath, (err) => {
+                    console.log(err);
+                });
             }
         }
     }
@@ -59,7 +61,8 @@ async function queryByTitle(title, sync) {
         }
 
         payload.code = 200;
-        payload.message = '查询完成';
+        payload.message = '已列出书单';
+        payload.date = new Date();
         payload.books = books;
 
         // 将查询的结果写入文件保存
@@ -70,8 +73,29 @@ async function queryByTitle(title, sync) {
 
 
     // 异步的查询方法
-    function Async() {
+    async function Async() {
+        let books = [];
 
+        payload.code = 206;
+        payload.message = '正在列出书单';
+
+        let task_count = queries.length;
+        let finished_count = 0;
+
+        queries.forEach(async (query) => {
+            let result = await query(title);
+            result.forEach((book) => books.push(book));
+            finished_count++;
+
+            console.log(finished_count, task_count);
+            if (task_count === finished_count) {
+                payload.code = 200;
+                payload.message = '已列出书单';
+            }
+            payload.date = new Date();
+            payload.books = books;
+            fs.writeFileSync(filepath, JSON.stringify(payload));
+        });
     }
 
     sync ? await Sync() : Async();
@@ -87,7 +111,7 @@ async function middleware(req, res) {
     let payload = await queryByTitle(title, sync);
     let finidshdTime = new Date();
     payload.during = finidshdTime.getTime() - startedTime.getTime();
-    res.JSON(payload);
+    res.json(payload);
 }
 
 
