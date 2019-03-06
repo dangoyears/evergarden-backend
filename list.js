@@ -66,9 +66,11 @@ async function listBookByTitle(title, sync) {
         payload.books = books;
 
         // 将查询的结果写入文件保存
-        fs.writeFile(filepath, JSON.stringify(payload, (err) => {
-            console.log(err);
-        }));
+        fs.writeFile(filepath, JSON.stringify(payload), (err) => {
+            if (err) {
+                console.log(err);
+            }
+        });
     }
 
 
