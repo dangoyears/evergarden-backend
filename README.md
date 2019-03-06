@@ -2,6 +2,8 @@
 
 代号Evergarden，朝着我们的理想前进！
 
+[![Maintainability](https://api.codeclimate.com/v1/badges/581645e6b693fe4db519/maintainability)](https://codeclimate.com/github/dangoyears/evergarden-backend/maintainability)
+
 ## 配置
 
 1. 安装依赖 `npm install`
