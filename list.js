@@ -9,7 +9,7 @@ const crawlers = require('./crawler');
 
 
 // 通过标题列出书单
-async function queryByTitle(title, sync) {
+async function listBookByTitle(title, sync) {
     let payload = {};  // 返回的数据
 
     if (!title) {  // 如果标题为空，拒绝查询
@@ -78,6 +78,7 @@ async function queryByTitle(title, sync) {
 
         payload.code = 206;
         payload.message = '正在列出书单';
+        fs.writeFileSync(filepath, JSON.stringify(payload));  // 建立任务
 
         let task_count = queries.length;
         let finished_count = 0;
@@ -108,7 +109,7 @@ async function middleware(req, res) {
     let title = (req.query['title'] || '').trim();
 
     let startedTime = new Date();
-    let payload = await queryByTitle(title, sync);
+    let payload = await listBookByTitle(title, sync);
     let finidshdTime = new Date();
     payload.during = finidshdTime.getTime() - startedTime.getTime();
     res.json(payload);
