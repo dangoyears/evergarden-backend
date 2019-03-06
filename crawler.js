@@ -53,7 +53,28 @@ var DangdangCrawler = {
     },
 
     // 通过URL获取书籍具体信息
-    getBook: () => {}
+    getBook: async (book_url) => {
+        let info = {};  // 爬取的书籍信息
+        let request_promise = util.promisify(request);
+
+        await request_promise({ uri: book_url, encoding: null })
+            .then((ret) => {
+                let headers = ret.headers, body = ret.body;
+    
+                let charset = headers['content-type'].match(/charset=(.*)$/)[1];  // 获取网页编码
+                body = iconv.decode(body, charset).toString();  // 解码网页
+
+                const $ = cheerio.load(body);
+
+                console.log(body);
+                info.raw = body;
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+        
+        return info;
+    }
 };
 
 
