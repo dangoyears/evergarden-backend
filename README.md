@@ -12,6 +12,7 @@
 ## API
 
 - `/list`
+  - 例子 `/list?title=三国演义&sync=1`
   - 必选参数 `title`
   - 可选参数 `sync`
 - `/book`
