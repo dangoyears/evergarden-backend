@@ -47,6 +47,17 @@ fs.writeFileSync(path.join(config.CACHE_PATH, 'PID'), process.pid);
 const app = express();
 
 
+// Body parser
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
+
+// 待添加的密钥检查功能
+app.use((req, res, next) => {
+    next();
+});
+
+
 // CORS
 app.use((req, res, next) => {
     res.header({
@@ -57,11 +68,6 @@ app.use((req, res, next) => {
     });
     next();
 });
-
-
-// Body parser
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
 
 
 // 静态文件
