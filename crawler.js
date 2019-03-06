@@ -65,9 +65,11 @@ var DangdangCrawler = {
                 body = iconv.decode(body, charset).toString();  // 解码网页
 
                 const $ = cheerio.load(body);
+                let title = $('div.name_info h1').attr('title');
+                let price = $('p#dd-price').text().trim();
 
-                console.log(body);
-                info.raw = body;
+                info.title = title;
+                info.price = price;
             })
             .catch((err) => {
                 console.log(err);
