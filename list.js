@@ -20,7 +20,7 @@ async function listBookByTitle(title, sync) {
 
     // 对各个数据源的爬取动作
     let queries = [
-        crawlers.DangdangCrawler.getListByTitle
+        ['dangdang', crawlers.DangdangCrawler.getListByTitle]
     ]; 
     let hash = crypto.createHash('sha1').update(title).digest('hex');
     let filepath = path.join(config.CACHE_PATH, 'list', hash);  // 保存任务状态的文件路径
@@ -56,8 +56,11 @@ async function listBookByTitle(title, sync) {
         let books = [];
         
         for (let i = 0; i < queries.length; ++i) {
-            let result = await queries[i](title);
-            result.forEach((book) => books.push(book));
+            let result = await queries[i][1](title);
+            result.forEach((book) => {
+                book.provider = queries[i][0];
+                books.push(book);
+            });
         }
 
         payload.code = 200;
