@@ -20,3 +20,6 @@
 - `/book`
   - 例子 `/book?url=http://product.dangdang.com/102772.html`
   - 必选参数 `url`
+- `/image`
+  - 例子 `/image?url=https://evergarden.qfstudio.net/image?url=http://img3m5.ddimg.cn/56/4/23761145-1_e_2.jpg`
+  - 必选参数 `url`
