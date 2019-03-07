@@ -8,15 +8,25 @@ const config = require('./config');
 const crawlers = require('./crawler');
 
 
-function getImageByUrl(url)
+async function getImageByUrl(url)
 {
     let dangdang_pattern = /.*?ddimg.cn.*/;
     
     if (dangdang_pattern.test(url)) {
-        let crawler = crawlers.DangdangCrawler.getBookByUrl;
+        let crawler = crawlers.DangdangCrawler.getImageByUrl;
+        let image = await crawler(url);
+        
+        console.log(image.info, image.raw.length);
     }
 }
 
+
+// 检查指定hash的图像的完整性
+// 即检查指定图像是否存在、图像的元数据信息是否完整
+function existsImage(hash)
+{
+    return false;
+}
 
 async function middleware(req, res) {
     let image_base_path = path.join(config.CACHE_PATH, 'image');
@@ -31,13 +41,16 @@ async function middleware(req, res) {
 
     let hash = crypto.createHash('sha1').update('image_url').digest('hex');
     try {
-        let image_path = path.resolve(path.join(image_base_path, hash));
-        if (fs.existsSync(image_path)) {
-            res.sendFile(image_path);
+        let image_info_path = path.resolve(path.join(image_base_path, hash + '.info'));
+        let image_raw_path = path.resolve(path.join(image_base_path, hash + '.raw'));
+        if (fs.existsSync(image_info_path)) {
+            res.sendFile(image_raw_path);
         }
         else {
             res.send(hash);
+            await getImageByUrl(image_url);
         }
+        console.log(image_info_path, image_raw_path);
     }
     catch (err) {
         console.log(err);

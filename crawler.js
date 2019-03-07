@@ -78,8 +78,23 @@ var DangdangCrawler = {
         return info;
     },
 
-    getImageByUrl: function (url) {
+    // 通过URL下载图像
+    getImageByUrl: async (url) => {
+        let request_promise = util.promisify(request);
+        let image = {};
+
+        await request_promise({uri: url, encoding: null})
+            .then((ret) => {
+                let headers = ret.headers, body = ret.body;
+                
+                image.info = headers['content-type'];
+                image.raw = body;
+            })
+            .catch((err) => {
+                console.log(err);
+            });
         
+        return image;
     }
 };
 
