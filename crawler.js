@@ -76,6 +76,10 @@ var DangdangCrawler = {
             });
         
         return info;
+    },
+
+    getImageByUrl: function (url) {
+        
     }
 };
 
