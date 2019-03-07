@@ -20,7 +20,7 @@ async function listBookByTitle(title, sync) {
 
     // 对各个数据源的爬取动作
     let queries = [
-        crawlers.DangdangCrawler.getList
+        crawlers.DangdangCrawler.getListByTitle
     ]; 
     let hash = crypto.createHash('sha1').update(title).digest('hex');
     let filepath = path.join(config.CACHE_PATH, 'list', hash);  // 保存任务状态的文件路径

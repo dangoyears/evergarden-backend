@@ -47,7 +47,7 @@ async function getBookByUrl(book_url) {
     let dangdang_pattern = /.*?product.dangdang.com\/.*/;
 
     if (dangdang_pattern.test(book_url)) {
-        let crawler = crawlers.DangdangCrawler.getBook;
+        let crawler = crawlers.DangdangCrawler.getBookByUrl;
         payload.info = await crawler(book_url);
     }
     else {

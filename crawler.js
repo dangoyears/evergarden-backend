@@ -12,7 +12,7 @@ const cheerio = require('cheerio');
 var DangdangCrawler = {
     
     // 通过标题获取书单
-    getList: async (title) => {
+    getListByTitle: async (title) => {
         let url_path = 'http://search.dangdang.com/';  // 当当网搜索主页
         let url_querystring = querystring.stringify({
             key: title,
@@ -53,7 +53,7 @@ var DangdangCrawler = {
     },
 
     // 通过URL获取书籍具体信息
-    getBook: async (book_url) => {
+    getBookByUrl: async (book_url) => {
         let info = {};  // 爬取的书籍信息
         let request_promise = util.promisify(request);
 
