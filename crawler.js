@@ -11,6 +11,10 @@ const cheerio = require('cheerio');
 // 当当网爬虫
 var DangdangCrawler = {
     
+    headers: {
+        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0'
+    },
+
     // 通过标题获取书单
     getListByTitle: async (title) => {
         let url_path = 'http://search.dangdang.com/';  // 当当网搜索主页
@@ -22,7 +26,7 @@ var DangdangCrawler = {
     
         let books = [];  // 爬取的书籍数据
         let request_promise = util.promisify(request);
-        await request_promise({ uri: url, encoding: null})
+        await request_promise({ uri: url, encoding: null, headers: this.headers })
             .then((ret) => {
                 let headers = ret.headers, body = ret.body;
     
@@ -57,7 +61,7 @@ var DangdangCrawler = {
         let info = {};  // 爬取的书籍信息
         let request_promise = util.promisify(request);
 
-        await request_promise({ uri: book_url, encoding: null })
+        await request_promise({ uri: book_url, encoding: null, headers: this.headers })
             .then((ret) => {
                 let headers = ret.headers, body = ret.body;
     
@@ -67,9 +71,11 @@ var DangdangCrawler = {
                 const $ = cheerio.load(body);
                 let title = $('div.name_info h1').attr('title');
                 let price = $('p#dd-price').text().trim();
+                let detail = $('div').text();
 
                 info.title = title;
                 info.price = price;
+                info.detail = detail;
             })
             .catch((err) => {
                 console.log(err);
@@ -83,7 +89,7 @@ var DangdangCrawler = {
         let request_promise = util.promisify(request);
         let image = {};
 
-        await request_promise({uri: url, encoding: null})
+        await request_promise({uri: url, encoding: null, headers: this.headers})
             .then((ret) => {
                 let headers = ret.headers, body = ret.body;
                 
