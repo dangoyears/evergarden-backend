@@ -89,8 +89,11 @@ async function listBookByTitle(title, sync) {
         let finished_count = 0;
 
         queries.forEach(async (query) => {
-            let result = await query(title);
-            result.forEach((book) => books.push(book));
+            let result = await query[1](title);
+            result.forEach((book) => {
+                book.provider = query[0];
+                books.push(book);
+            });
             finished_count++;
 
             console.log(finished_count, task_count);
