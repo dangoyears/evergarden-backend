@@ -18,4 +18,5 @@
   - 必选参数 `title`
   - 可选参数 `sync`
 - `/book`
+  - 例子 `/book?url=http://product.dangdang.com/102772.html`
   - 必选参数 `url`
